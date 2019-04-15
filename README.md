@@ -29,7 +29,7 @@ for result in engine.ClassifyWithImage(img, top_k=3):
 
 ## Models
 * The official pre-compiled models are at -> https://coral.withgoogle.com/models/
-* It is [also possible to train your own models](https://coral.withgoogle.com/tutorials/edgetpu-models-intro/) -> try using Google Colaboratory as the free environment for training
+* It is [also possible to train your own models](https://coral.withgoogle.com/tutorials/edgetpu-models-intro/) -> try using Google Colaboratory as the free environment for training or -> https://cloud-annotations.github.io/training/object-detection/cli/index.html
 
 ## Docker
 * Want to wrap this project up in a Docker container for easy deployment
@@ -37,6 +37,7 @@ for result in engine.ClassifyWithImage(img, top_k=3):
 
 ## IDE 
 * Tryout cloud9 -> https://www.siaris.net/post/cloud9/
+* Try Hypriot/Docker -> https://github.com/stockmind/cloud9-docker-arm
 
 ## References
 * [Using the official pi camera with Coral](https://github.com/nickoala/edgetpu-on-pi)
