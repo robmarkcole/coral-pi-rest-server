@@ -33,3 +33,11 @@ for result in engine.ClassifyWithImage(img, top_k=3):
 
 ## Docker
 * Want to wrap this project up in a Docker container for easy deployment
+* https://www.raspberrypi.org/blog/docker-comes-to-raspberry-pi/
+
+## IDE 
+* Tryout cloud9 -> https://www.siaris.net/post/cloud9/
+
+## References
+* [Using the official pi camera with Coral](https://github.com/nickoala/edgetpu-on-pi)
+* https://github.com/snmsung716/Following-camera-with-Coral-Accelerator-on-Raspberry-Pi
