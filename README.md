@@ -3,6 +3,7 @@ Expose deep learning models on a Coral usb accelerator via a rest API on a raspb
 
 ## Official code
 * The edgetpu code doesn't appear to live on Github, but is downloaded from a google machine. I have placed some of the python files from that library in this repo for reference. In particular `edgetpu/classification/engine.py` contains the `ClassificationEngine` class used to perform inferencing. The good news is that the only python dependencies (apart from some device specific code) are `numpy` and `PIL`.
+* [Coral Python API & demos](https://coral.withgoogle.com/docs/edgetpu/api-intro/)
 
 ## Rest API
 * As a guide see -> https://blog.keras.io/building-a-simple-keras-deep-learning-rest-api.html
@@ -42,3 +43,5 @@ for result in engine.ClassifyWithImage(img, top_k=3):
 ## References
 * [Using the official pi camera with Coral](https://github.com/nickoala/edgetpu-on-pi)
 * https://github.com/snmsung716/Following-camera-with-Coral-Accelerator-on-Raspberry-Pi
+* https://github.com/lemariva/raspbian-EdgeTPU
+* [Pyimagesearch article on Coral](https://www.pyimagesearch.com/2019/04/22/getting-started-with-google-corals-tpu-usb-accelerator/)
