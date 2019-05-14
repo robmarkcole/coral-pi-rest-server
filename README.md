@@ -4,6 +4,7 @@ Expose deep learning models on a Coral usb accelerator via MQTT on a raspberry p
 ## Coral Accelerator Official code
 * The edgetpu code doesn't appear to live on Github, but is downloaded from a google machine. I have placed some of the python files from that library in this repo for reference. In particular `edgetpu/classification/engine.py` contains the `ClassificationEngine` class used to perform inferencing. The good news is that the only python dependencies (apart from some device specific code) are `numpy` and `PIL`.
 * [Coral Python API & demos](https://coral.withgoogle.com/docs/edgetpu/api-intro/)
+* https://github.com/google-coral
 
 ## Models
 * The official pre-compiled models are at -> https://coral.withgoogle.com/models/
@@ -19,3 +20,5 @@ MQTT is very common in IOT and simpler to implement than rest. We will need to h
 * [Pyimagesearch article on Coral](https://www.pyimagesearch.com/2019/04/22/getting-started-with-google-corals-tpu-usb-accelerator/)
 * [picamera-mqtt](https://github.com/ethanjli/picamera-mqtt)
 * [Yolo over MQTT with Home Assistant integration](https://github.com/joakimeriksson/ai-smarthome/tree/master/yolov3-ha)
+* [Hands on with coral + docker](https://lemariva.com/blog/2019/04/edge-tpu-coral-usb-accelerator-dockerized)
+* [Official Raspicam example](https://github.com/google-coral/examples-camera/blob/master/raspicam/classify_capture.py)
