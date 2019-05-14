@@ -18,3 +18,4 @@ MQTT is very common in IOT and simpler to implement than rest. We will need to h
 * https://github.com/lemariva/raspbian-EdgeTPU
 * [Pyimagesearch article on Coral](https://www.pyimagesearch.com/2019/04/22/getting-started-with-google-corals-tpu-usb-accelerator/)
 * [picamera-mqtt](https://github.com/ethanjli/picamera-mqtt)
+* [Yolo over MQTT with Home Assistant integration](https://github.com/joakimeriksson/ai-smarthome/tree/master/yolov3-ha)
