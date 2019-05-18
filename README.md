@@ -8,8 +8,16 @@ Expose deep learning models on a Coral usb accelerator a Flask app on a raspberr
 * It is [also possible to train your own models](https://coral.withgoogle.com/tutorials/edgetpu-models-intro/) -> try using Google Colaboratory as the free environment for training or -> https://cloud-annotations.github.io/training/object-detection/cli/index.html
 
 ## Flask app
-* We will be forking the code in this excellent article -> https://blog.keras.io/building-a-simple-keras-deep-learning-rest-api.html
+* We will be forking the code in this excellent article -> https://blog.keras.io/building-a-simple-keras-deep-learning-rest-api.html [code](https://github.com/jrosebr1/simple-keras-rest-api)
 * The Flask app exposes a rest end point which is easy to call using CURL or using python requests. 
+* For uploading image bytes -> https://github.com/robmarkcole/Useful-python/blob/master/Flask/Flask-image-bytes/app.py
+
+## MVP
+* Accept image bytes and return inferences
+
+## Optional
+* Simple front end for uploading images -> https://github.com/gxercavins/image-api 
+* Handle traffic -> https://www.pyimagesearch.com/2018/01/29/scalable-keras-deep-learning-rest-api/
 
 ## References
 * https://github.com/google-coral
