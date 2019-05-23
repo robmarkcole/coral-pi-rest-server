@@ -69,7 +69,7 @@ def predict():
                 image,
                 threshold=0.05,
                 keep_aspect_ratio=True,
-                relative_coord=False,
+                relative_coord=True,  # True = relative coordinates 0-1 of original image.
                 top_k=10,
             )
 
@@ -77,12 +77,19 @@ def predict():
                 data["success"] = True
                 preds = []
                 for prediction in predictions:
+                    decimals = 2
+                    bounding_box = {
+                        "x1": round(prediction.bounding_box[0, 0], decimals),
+                        "x2": round(prediction.bounding_box[0, 1], decimals),
+                        "y1": round(prediction.bounding_box[1, 0], decimals),
+                        "y2": round(prediction.bounding_box[1, 1], decimals),
+                    }
                     preds.append(
                         {
                             "score": str(prediction.score),
                             "label_id": str(prediction.label_id),
                             "label": labels[prediction.label_id],
-                            "bounding_box": str(prediction.bounding_box),
+                            "bounding_box": bounding_box,
                         }
                     )
                 data["predictions"] = preds

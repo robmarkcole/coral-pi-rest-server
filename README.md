@@ -1,5 +1,5 @@
 # coral-pi-rest-server
-Expose deep learning models on a Coral usb accelerator a Flask app on a raspberry pi.
+Expose deep learning models on a Coral usb accelerator via a Flask app. See the jupyter notebook for usage.
 
 ## Coral Accelerator
 * The edgetpu code doesn't appear to live on Github, but is downloaded from a google machine. The good news is that the only python dependencies (apart from some device specific code) are `numpy` and `PIL`.
@@ -13,7 +13,7 @@ Expose deep learning models on a Coral usb accelerator a Flask app on a raspberr
 * For uploading image bytes -> https://github.com/robmarkcole/Useful-python/blob/master/Flask/Flask-image-bytes/app.py
 
 ## MVP
-* Accept image bytes and return inferences
+* Accept image and return inferences
 
 ## Optional
 * Simple front end for uploading images -> https://github.com/gxercavins/image-api 
