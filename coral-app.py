@@ -17,6 +17,8 @@ app = flask.Flask(__name__)
 engine = None
 labels = None
 
+DECIMALS = 2  # The number of decimal places data is returned to
+
 MODEL = "/home/robin/edgetpu/all_models/mobilenet_ssd_v2_coco_quant_postprocess_edgetpu.tflite"
 LABEL_FILE = "/home/robin/edgetpu/all_models/coco_labels.txt"
 
@@ -77,17 +79,16 @@ def predict():
                 data["success"] = True
                 preds = []
                 for prediction in predictions:
-                    decimals = 2
+                    
                     bounding_box = {
-                        "x1": round(prediction.bounding_box[0, 0], decimals),
-                        "x2": round(prediction.bounding_box[0, 1], decimals),
-                        "y1": round(prediction.bounding_box[1, 0], decimals),
-                        "y2": round(prediction.bounding_box[1, 1], decimals),
+                        "x1": round(prediction.bounding_box[0, 0], DECIMALS),
+                        "x2": round(prediction.bounding_box[0, 1], DECIMALS),
+                        "y1": round(prediction.bounding_box[1, 0], DECIMALS),
+                        "y2": round(prediction.bounding_box[1, 1], DECIMALS),
                     }
                     preds.append(
                         {
-                            "score": str(prediction.score),
-                            "label_id": str(prediction.label_id),
+                            "confidence": str(round(100*prediction.score, DECIMALS)), # A percentage.
                             "label": labels[prediction.label_id],
                             "bounding_box": bounding_box,
                         }
