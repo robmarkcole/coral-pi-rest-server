@@ -19,8 +19,8 @@ labels = None
 
 DECIMALS = 2  # The number of decimal places data is returned to
 
-MODEL = "/home/robin/edgetpu/all_models/mobilenet_ssd_v2_coco_quant_postprocess_edgetpu.tflite"
-LABEL_FILE = "/home/robin/edgetpu/all_models/coco_labels.txt"
+MODEL = "/home/pi/edgetpu/all_models/mobilenet_ssd_v2_coco_quant_postprocess_edgetpu.tflite"
+LABEL_FILE = "/home/pi/edgetpu/all_models/coco_labels.txt"
 
 
 # Function to read labels from text files.
@@ -40,10 +40,10 @@ def load_model():
     """
     global engine, labels
     engine = DetectionEngine(MODEL)
-    print(f"\n Loaded engine with model : {MODEL}")
+    print("\n Loaded engine with model : {}".format(MODEL))
 
     labels = ReadLabelFile(LABEL_FILE)
-    print(f"\n Loaded labels from file : {LABEL_FILE}")
+    print("\n Loaded labels from file : {}".format(LABEL_FILE))
     return
 
 
