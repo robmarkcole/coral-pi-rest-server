@@ -1,7 +1,4 @@
-Expose deep learning models on a Coral usb accelerator via a Flask app. See the jupyter notebook for usage. 
-`coral-app.py` is a Flask app which exposes a tensorflow-lite model as an endpoint. 
-
-To run the app and expose over a network: 
+Expose deep learning models on a Coral usb accelerator via a Flask app. To run the app and expose over a network: 
 ```
 $ python3 coral-app.py
 ```
@@ -43,7 +40,16 @@ response = {'predictions': [
  'success': True}
 ```
 
-NOTE: you need to update the `MODEL` and `LABELS` file paths in `coral-app.py`
+See the [Jupyter notebook](https://github.com/robmarkcole/coral-pi-rest-server/blob/master/coral-app-usage.ipynb) for usage with python requests library.
+
+**NOTE:** you need to update the `MODEL` and `LABELS` file paths in `coral-app.py`
+
+## Pi setup
+I am running the server on a pi 3 with the raspi camera below. FYI the camera is mounted on a [pan-tilt stage](https://shop.pimoroni.com/products/pan-tilt-hat).
+
+<p align="center">
+<img src="https://github.com/robmarkcole/coral-pi-rest-server/blob/master/images/my_setup.png" width="500">
+</p>
 
 ## Models
 * The official pre-compiled models are at -> https://coral.withgoogle.com/models/
