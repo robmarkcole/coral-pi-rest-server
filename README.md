@@ -43,6 +43,8 @@ response = {'predictions': [
  'success': True}
 ```
 
+NOTE: you need to update the `MODEL` and `LABELS` file paths in `coral-app.py`
+
 ## Models
 * The official pre-compiled models are at -> https://coral.withgoogle.com/models/
 * It is [also possible to train your own models](https://coral.withgoogle.com/tutorials/edgetpu-models-intro/) -> try using Google Colaboratory as the free environment for training or -> https://cloud-annotations.github.io/training/object-detection/cli/index.html
