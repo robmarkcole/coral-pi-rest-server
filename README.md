@@ -1,12 +1,47 @@
 Expose deep learning models on a Coral usb accelerator via a Flask app. See the jupyter notebook for usage. 
+`coral-app.py` is a Flask app which exposes a tensorflow-lite model as an endpoint. 
 
-coral-app.py is a Flask app which exposes a tensorflow model as an endpoint. To run the app and expose over a network: 
-
- $ python3 coral-app.py
-
+To run the app and expose over a network: 
+```
+$ python3 coral-app.py
+```
 Then use curl to query:
-
- curl -X POST -F image=@people_car.jpg 'http://localhost:5000/predict'
+```
+$curl -X POST -F image=@people_car.jpg 'http://localhost:5000/predict'
+ 
+response = {'predictions': [
+   {'bounding_box': {'x1': 0.87, 'x2': 0.28, 'y1': 0.96, 'y2': 0.85},
+   'confidence': '95.31',
+   'label': 'person'},
+  {'bounding_box': {'x1': 0.32, 'x2': 0.24, 'y1': 0.64, 'y2': 0.75},
+   'confidence': '91.02',
+   'label': 'car'},
+  {'bounding_box': {'x1': 0.24, 'x2': 0.3, 'y1': 0.37, 'y2': 0.78},
+   'confidence': '58.2',
+   'label': 'person'},
+  {'bounding_box': {'x1': 0.22, 'x2': 0.44, 'y1': 0.36, 'y2': 0.87},
+   'confidence': '26.95',
+   'label': 'bicycle'},
+  {'bounding_box': {'x1': 0.44, 'x2': 0.36, 'y1': 0.47, 'y2': 0.44},
+   'confidence': '21.09',
+   'label': 'person'},
+  {'bounding_box': {'x1': 0.37, 'x2': 0.34, 'y1': 0.41, 'y2': 0.43},
+   'confidence': '21.09',
+   'label': 'person'},
+  {'bounding_box': {'x1': 0.32, 'x2': 0.31, 'y1': 0.36, 'y2': 0.44},
+   'confidence': '21.09',
+   'label': 'person'},
+  {'bounding_box': {'x1': 0.01, 'x2': 0.02, 'y1': 0.02, 'y2': 0.09},
+   'confidence': '21.09',
+   'label': 'traffic light'},
+  {'bounding_box': {'x1': 0.25, 'x2': 0.54, 'y1': 0.34, 'y2': 0.85},
+   'confidence': '16.02',
+   'label': 'bicycle'},
+  {'bounding_box': {'x1': 0.31, 'x2': 0.32, 'y1': 0.37, 'y2': 0.62},
+   'confidence': '16.02',
+   'label': 'person'}],
+ 'success': True}
+```
 
 ## Models
 * The official pre-compiled models are at -> https://coral.withgoogle.com/models/
