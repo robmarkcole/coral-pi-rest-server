@@ -42,7 +42,7 @@ response = {'predictions': [
 
 See the [Jupyter notebook](https://github.com/robmarkcole/coral-pi-rest-server/blob/master/coral-app-usage.ipynb) for usage with python requests library.
 
-**NOTE:** you need to update the `MODEL` and `LABELS` file paths in `coral-app.py`
+**NOTE:** you need to update the `MODEL` and `LABELS` file paths in `coral-app.py`. For compatability with the way these paths are hard coded in this repo, you can on a pi `cd ~`, `mkdir edgetpu`, `mkdir all_models`, `cd all_models`, `wget https://dl.google.com/coral/canned_models/all_models.tar.gz`, `tar xf all_models.tar.gz`, `rm all_models.tar.gz`
 
 ## Pi setup
 I am running the server on a pi 3 with the raspi camera below. FYI the camera is mounted on a [pan-tilt stage](https://shop.pimoroni.com/products/pan-tilt-hat).
