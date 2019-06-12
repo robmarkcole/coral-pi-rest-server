@@ -19,8 +19,8 @@ labels = None
 
 DECIMALS = 2  # The number of decimal places data is returned to
 
-MODEL = "/home/pi/edgetpu/all_models/mobilenet_ssd_v2_coco_quant_postprocess_edgetpu.tflite"
-LABEL_FILE = "/home/pi/edgetpu/all_models/coco_labels.txt"
+MODEL = "/home/robin/edgetpu/all_models/mobilenet_ssd_v2_coco_quant_postprocess_edgetpu.tflite"
+LABEL_FILE = "/home/robin/edgetpu/all_models/coco_labels.txt"
 
 
 # Function to read labels from text files.
@@ -71,7 +71,7 @@ def predict():
                 image,
                 threshold=0.05,
                 keep_aspect_ratio=True,
-                relative_coord=True,  # True = relative coordinates 0-1 of original image.
+                relative_coord=False,  # True = relative coordinates 0-1 of original image.
                 top_k=10,
             )
 
@@ -79,16 +79,17 @@ def predict():
                 data["success"] = True
                 preds = []
                 for prediction in predictions:
-                    
                     bounding_box = {
                         "x1": round(prediction.bounding_box[0, 0], DECIMALS),
                         "x2": round(prediction.bounding_box[0, 1], DECIMALS),
-                        "y1": round(prediction.bounding_box[1, 0], DECIMALS),
+                        "y1": round(prediction.bounding_box[0, 1], DECIMALS),
                         "y2": round(prediction.bounding_box[1, 1], DECIMALS),
                     }
                     preds.append(
                         {
-                            "confidence": str(round(100*prediction.score, DECIMALS)), # A percentage.
+                            "confidence": str(
+                                round(100 * prediction.score, DECIMALS)
+                            ),  # A percentage.
                             "label": labels[prediction.label_id],
                             "bounding_box": bounding_box,
                         }
