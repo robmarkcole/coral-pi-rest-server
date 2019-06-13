@@ -81,7 +81,7 @@ def predict():
                 for prediction in predictions:
                     bounding_box = {
                         "x1": round(prediction.bounding_box[0, 0], DECIMALS),
-                        "x2": round(prediction.bounding_box[0, 1], DECIMALS),
+                        "x2": round(prediction.bounding_box[1, 0], DECIMALS),
                         "y1": round(prediction.bounding_box[0, 1], DECIMALS),
                         "y2": round(prediction.bounding_box[1, 1], DECIMALS),
                     }
