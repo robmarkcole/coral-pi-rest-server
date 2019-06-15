@@ -34,22 +34,27 @@ def ReadLabelFile(file_path):
     return ret
 
 
-def load_model():
+def load_model(model_file=None, label_file=None):
     """
     Load model and labels.
     """
     global engine, labels
-    engine = DetectionEngine(MODEL)
-    print("\n Loaded engine with model : {}".format(MODEL))
 
-    labels = ReadLabelFile(LABEL_FILE)
-    print("\n Loaded labels from file : {}".format(LABEL_FILE))
-    return
+    if not model_file:
+        model_file = MODEL
+    if not label_file:
+        label_file = LABEL_FILE
+
+    engine = DetectionEngine(model_file)
+    print("\n Loaded engine with model : {}".format(model_file))
+
+    labels = ReadLabelFile(label_file)
+    print("\n Loaded labels from file : {}".format(label_file))
 
 
 @app.route("/")
 def info():
-    info_str = "Flask app exposing tensorflow models via Google Coral."
+    info_str = "Flask app exposing tensorflow models via Google Coral.\n"
     return info_str
 
 
@@ -101,5 +106,18 @@ def predict():
 
 
 if __name__ == "__main__":
-    load_model()
-    app.run(host="0.0.0.0", port=5000)
+    import argparse
+
+    parser = argparse.ArgumentParser(
+        description="Google Coral edgetpu flask daemon")
+    parser.add_argument("--quiet", "-q", action='store_true',
+                        help="log only warnings, errors")
+    parser.add_argument("--port", '-p', default=5000,
+                        type=int, choices=range(0, 65536),
+                        help="port number")
+    parser.add_argument("--model",  default=None, help="model file")
+    parser.add_argument("--labels", default=None, help="labels file for model")
+    args = parser.parse_args()
+
+    load_model(args.model, args.labels)
+    app.run(host="0.0.0.0", port=args.port)
