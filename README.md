@@ -64,6 +64,36 @@ I am running the server on a pi 3 with the raspi camera below. FYI the camera is
 ## Home Assistant
 I have published code for using this app with Home Assistant -> [HASS-Google-Coral](https://github.com/robmarkcole/HASS-Google-Coral)
 
+## Docker container
+There's a Dockerfile included that will construct a container to run this flask daemon.
+
+By default, it will fetch
+https://dl.google.com/coral/canned_models/mobilenet_ssd_v2_coco_quant_postprocess_edgetpu.tflite
+to use as the model and
+https://dl.google.com/coral/canned_models/coco_labels.txt for labels.
+If you'd like to use alternative model and label files with an already
+built container, you can put them into a directory that's mounted in the container and then
+start the container using `MODEL` and `LABELS` environment variables to refer to the paths
+inside the container.
+
+Build the container like
+```
+$ docker build -t coral .
+```
+
+You can start the container with something like:
+```
+  docker run --restart=always --detach --name coral \
+          -p 5000:5000 --device /dev/bus/usb:/dev/bus/usb   coral:latest
+```
+it's important to use the `--device` option to pass in the USB bus device so that the Coral
+edgetpu USB device can be found
+
+Logging produced by the container is sort of broken.  There seems to
+be a mixture of output to STDOUT and STDERR, each independently
+buffered.
+
+
 ## References
 * https://github.com/google-coral
 * [Using the official pi camera with Coral](https://github.com/nickoala/edgetpu-on-pi)
