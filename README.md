@@ -49,7 +49,7 @@ I am running the server on a pi 3 with the raspi camera below. FYI the camera is
 * It is [also possible to train your own models](https://coral.withgoogle.com/tutorials/edgetpu-models-intro/) -> try using Google Colaboratory as the free environment for training or -> https://cloud-annotations.github.io/training/object-detection/cli/index.html
 
 ## Deepstack & Home Assistant
-The data returned by the app is identical in format to that returned by Deepstack object detection endpoint, allowing you to use this app as the backend for [HASS-Deepstack-object](https://github.com/robmarkcole/HASS-Deepstack-object)
+The data returned by the app is as close as possible in format to that returned by Deepstack object detection endpoint, allowing you to use this app as the backend for [HASS-Deepstack-object](https://github.com/robmarkcole/HASS-Deepstack-object)
 
 ## Docker container
 There's a Dockerfile included that will construct a container to run this flask daemon.
