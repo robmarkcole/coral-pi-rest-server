@@ -4,7 +4,7 @@ $ python3 coral-app.py
 ```
 Then use curl to query:
 ```
-$curl -X POST -F image=@people_car.jpg 'http://localhost:5000/predict'
+curl -X POST -F image=@images/people_car.jpg 'http://localhost:5000/predict'
  
 {'predictions': [{'bounding_box': {'x1': 838.29,
     'x2': 918.53,
