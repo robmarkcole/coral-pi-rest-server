@@ -44,21 +44,19 @@ def info():
 def predict():
     data = {"success": False}
 
-    # ensure an image was properly uploaded to our endpoint
     if flask.request.method == "POST":
         if flask.request.files.get("image"):
-            # read the image in PIL format
             image_file = flask.request.files["image"]
             print(image_file)
             image_bytes = image_file.read()
-            image = Image.open(io.BytesIO(image_bytes))  # PIL img object.
+            image = Image.open(io.BytesIO(image_bytes))
 
             # Run inference.
             predictions = engine.DetectWithImage(
                 image,
                 threshold=0.05,
                 keep_aspect_ratio=True,
-                relative_coord=False,  # True = relative coordinates 0-1 of original image.
+                relative_coord=False,
                 top_k=10,
             )
 
@@ -68,12 +66,12 @@ def predict():
                 for prediction in predictions:
                     preds.append(
                         {
-                            "confidence": str(100 * prediction.score),  # A percentage.
+                            "confidence": float(prediction.score),
                             "label": labels[prediction.label_id],
-                            "x_min": int(prediction.bounding_box[0, 0]),
-                            "x_max": int(prediction.bounding_box[1, 0]),
                             "y_min": int(prediction.bounding_box[0, 1]),
+                            "x_min": int(prediction.bounding_box[0, 0]),
                             "y_max": int(prediction.bounding_box[1, 1]),
+                            "x_max": int(prediction.bounding_box[1, 0]),
                         }
                     )
                 data["predictions"] = preds
