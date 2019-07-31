@@ -6,30 +6,18 @@ Then use curl to query:
 ```
 curl -X POST -F image=@images/test-image3.jpg 'http://localhost:5000/v1/vision/detection'
 
- {'predictions': [{'confidence': '98.828125',
+{'predictions': [{'confidence': 0.953125,
    'label': 'person',
-   'x_max': 601,
-   'x_min': 447,
-   'y_max': 522,
-   'y_min': 103},
-  {'confidence': '95.3125',
+   'x_max': 918,
+   'x_min': 838,
+   'y_max': 407,
+   'y_min': 135},
+  {'confidence': 0.58203125,
    'label': 'person',
-   'x_max': 443,
-   'x_min': 294,
-   'y_max': 534,
-   'y_min': 91},
-  {'confidence': '26.953125',
-   'label': 'horse',
-   'x_max': 795,
-   'x_min': 631,
-   'y_max': 542,
-   'y_min': 356},
-  {'confidence': '6.640625',
-   'label': 'cow',
-   'x_max': 790,
-   'x_min': 749,
-   'y_max': 421,
-   'y_min': 380}],
+   'x_max': 350,
+   'x_min': 226,
+   'y_max': 374,
+   'y_min': 143}]
  'success': True}
 ```
 
