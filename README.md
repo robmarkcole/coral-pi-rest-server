@@ -21,7 +21,7 @@ curl -X POST -F image=@images/test-image3.jpg 'http://localhost:5000/v1/vision/d
  'success': True}
 ```
 
-See the [Jupyter notebook](https://github.com/robmarkcole/coral-pi-rest-server/blob/master/coral-app-usage.ipynb) for usage with python requests library.
+See the [Jupyter notebook](https://github.com/robmarkcole/coral-pi-rest-server/blob/master/usage/coral-app-usage.ipynb) for usage with python requests library.
 
 ## Models 
 You need to update the `MODELS_DIR`, `MODEL` and `LABELS` paths in `coral-app.py`. For compatability with the way these paths are hard coded in this repo, you can on a pi `cd ~`, `mkdir edgetpu`, `mkdir all_models`, `cd all_models`, `wget https://dl.google.com/coral/canned_models/all_models.tar.gz`, `tar xf all_models.tar.gz`, `rm all_models.tar.gz`
