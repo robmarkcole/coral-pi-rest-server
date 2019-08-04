@@ -15,7 +15,7 @@ labels = None
 ROOT_URL = "/v1/vision/detection"
 PORT = 5000
 
-MODELS_DIR = "/home/robin/edgetpu/all_models/"
+MODELS_DIR = "/home/pi/edgetpu/all_models/"
 MODEL = "mobilenet_ssd_v2_coco_quant_postprocess_edgetpu.tflite"
 LABELS = "coco_labels.txt"
 
