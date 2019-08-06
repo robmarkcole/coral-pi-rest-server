@@ -21,7 +21,7 @@ curl -X POST -F image=@images/test-image3.jpg 'http://localhost:5000/v1/vision/d
  'success': True}
 ```
 
-See the [Jupyter notebook](https://github.com/robmarkcole/coral-pi-rest-server/blob/master/usage/coral-app-usage.ipynb) for usage with python requests library.
+See the [coral-app-usage.ipynb](https://github.com/robmarkcole/coral-pi-rest-server/blob/master/coral-app-usage.ipynb) Jupyter notebook for usage from python.
 
 ## Pi setup
 Install one of the disk images from [edgetpu-platforms](https://github.com/google-coral/edgetpu-platforms). In the `/home/pi` directory `git clone` this repository. You wil now have a file stucture like:
