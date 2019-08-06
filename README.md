@@ -40,13 +40,21 @@ Now run the app:
 pi@raspberrypi:~/coral-pi-rest-server $ python3 coral-app.py
 ```
 
-I am running on a pi3 with the raspi camera below. FYI the camera is mounted on a [pan-tilt stage](https://shop.pimoroni.com/products/pan-tilt-hat).
+### Pi 3
+I am running a pi3 with the raspi camera below. FYI the camera is mounted on a [pan-tilt stage](https://shop.pimoroni.com/products/pan-tilt-hat).
 
 <p align="center">
 <img src="https://github.com/robmarkcole/coral-pi-rest-server/blob/master/images/my_setup.png" width="500">
 </p>
 
 Using the pi3 (which has only usb2) processing a single request from another machine via this server takes ~ 300 to 500 ms. Therefore this is certainly fast enough to process images at 1 FPS which in my experience is suitable for tasks such as counting people in a room.
+
+### Pi 4
+The pi4 has USB3 so we would expect better speeds. However I get inference time consistently ~ 500 ms when querying from another machine. Therefore it appears the coral library does not yet take advantage of the USB3.
+
+<p align="center">
+<img src="https://github.com/robmarkcole/coral-pi-rest-server/blob/master/images/pi4.jpg" width="500">
+</p>
 
 ## Models
 If you have installed the raspberry pi disk images from edgetpu-platforms then you already have all the models in `home/pi/all_models`. If you are using a linux desktop you will need to download the models.
