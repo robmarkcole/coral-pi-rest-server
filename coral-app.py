@@ -15,7 +15,7 @@ labels = None
 ROOT_URL = "/v1/vision/detection"
 PORT = 5000
 
-MODELS_DIR = "/home/pi/edgetpu/all_models/"
+MODELS_DIR = "/home/pi/all_models/"
 MODEL = "mobilenet_ssd_v2_coco_quant_postprocess_edgetpu.tflite"
 LABELS = "coco_labels.txt"
 
@@ -36,7 +36,7 @@ def ReadLabelFile(file_path):
 
 @app.route("/")
 def info():
-    info_str = f"Flask app exposing tensorflow model: {MODEL}\n"
+    info_str = "Flask app exposing tensorflow model: {}\n".format(MODEL)
     return info_str
 
 

@@ -23,17 +23,31 @@ curl -X POST -F image=@images/test-image3.jpg 'http://localhost:5000/v1/vision/d
 
 See the [Jupyter notebook](https://github.com/robmarkcole/coral-pi-rest-server/blob/master/usage/coral-app-usage.ipynb) for usage with python requests library.
 
-## Models 
-You need to update the `MODELS_DIR`, `MODEL` and `LABELS` paths in `coral-app.py`. For compatability with the way these paths are hard coded in this repo, you can on a pi `cd ~`, `mkdir edgetpu`, `mkdir all_models`, `cd all_models`, `wget https://dl.google.com/coral/canned_models/all_models.tar.gz`, `tar xf all_models.tar.gz`, `rm all_models.tar.gz`
-
 ## Pi setup
-I am running the server on a pi 3 with the raspi camera below. FYI the camera is mounted on a [pan-tilt stage](https://shop.pimoroni.com/products/pan-tilt-hat).
+Install one of the disk images from [edgetpu-platforms](https://github.com/google-coral/edgetpu-platforms). In the `/home/pi` directory `git clone` this repository. You wil now have a file stucture like:
+```
+pi@raspberrypi:~ $ ls
+
+all_models  coral-pi-rest-server  edgetpu_api  examples-camera  project-posenet  project-teachable  simple-demo
+```
+
+Use the `cd` command to enter `coral-pi-rest-server` and (system wide, no viretual environment) install the required dependencies:
+```
+pi@raspberrypi:~/coral-pi-rest-server $ pip3 install -r requirements.txt
+```
+Now run the app:
+```
+pi@raspberrypi:~/coral-pi-rest-server $ python3 coral-app.py
+```
+
+I am running on a pi 3 with the raspi camera below. FYI the camera is mounted on a [pan-tilt stage](https://shop.pimoroni.com/products/pan-tilt-hat).
 
 <p align="center">
 <img src="https://github.com/robmarkcole/coral-pi-rest-server/blob/master/images/my_setup.png" width="500">
 </p>
 
 ## Models
+If you have installed the raspberry pi disk images from edgetpu-platforms then you already have all the models in `home/pi/all_models`. If you are using a linux desktop you will need to download the models.
 * The official pre-compiled models are at -> https://coral.withgoogle.com/models/
 * It is [also possible to train your own models](https://coral.withgoogle.com/tutorials/edgetpu-models-intro/) -> try using Google Colaboratory as the free environment for training or -> https://cloud-annotations.github.io/training/object-detection/cli/index.html
 
