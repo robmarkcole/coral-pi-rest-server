@@ -24,7 +24,7 @@ curl -X POST -F image=@images/test-image3.jpg 'http://localhost:5000/v1/vision/d
 See the [coral-app-usage.ipynb](https://github.com/robmarkcole/coral-pi-rest-server/blob/master/coral-app-usage.ipynb) Jupyter notebook for usage from python.
 
 ## Pi setup
-Install one of the disk images from [edgetpu-platforms](https://github.com/google-coral/edgetpu-platforms). In the `/home/pi` directory `git clone` this repository. You wil now have a file stucture like:
+Install one of the disk images from [edgetpu-platforms](https://github.com/google-coral/edgetpu-platforms). In the `/home/pi` directory `git clone` this repository. You wil now have a file stucture like (pi3 &pi4 only, pi-zero [differs](https://github.com/google-coral/edgetpu-platforms/issues/13)):
 ```
 pi@raspberrypi:~ $ ls
 
@@ -54,6 +54,24 @@ The pi4 has USB3 so we would expect better speeds. However I get inference time 
 
 <p align="center">
 <img src="https://github.com/robmarkcole/coral-pi-rest-server/blob/master/images/pi4.jpg" width="500">
+</p>
+
+## Pi-zero
+Pi zero disk image differs from the pi3 and pi4 images. To check your pi-zero disk image run:
+```
+~/simple-demo $ python3 classify_image.py \
+ --model models/mobilenet_v2_1.0_224_inat_bird_quant_edgetpu.tflite \
+ --label models/inat_bird_labels.txt \
+ --image parrot.jpg
+
+---------------------------
+Ara macao (Scarlet Macaw)
+Score :  0.761719
+```
+To install flask I had to `sudo pip3 install flask` as attempts using `requirements.txt` kept timing out. UPDATE: THIS FAILED TOO, UNABLE TO INSTALL FLASK ON PI-ZERO.
+
+<p align="center">
+<img src="https://github.com/robmarkcole/coral-pi-rest-server/blob/master/images/pi-zero.jpg" width="500">
 </p>
 
 ## Models
