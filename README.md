@@ -68,7 +68,11 @@ Pi zero disk image differs from the pi3 and pi4 images. To check your pi-zero di
 Ara macao (Scarlet Macaw)
 Score :  0.761719
 ```
-To install flask I had to `sudo pip3 install flask` as attempts using `requirements.txt` kept timing out. UPDATE: THIS FAILED TOO, UNABLE TO INSTALL FLASK ON PI-ZERO.
+To install flask I had to `sudo pip3 install flask` as attempts using `requirements.txt` kept timing out. Also since the directory structure is different on the pi-zero, in `coral-app.py` you need to edit:
+```
+MODELS_DIR = "/home/pi/simple-demo/models/"
+```
+I found that I get inference time in the range 2.5 to 5s when querying from another machine, so significantly slower than the pi3/pi4.
 
 <p align="center">
 <img src="https://github.com/robmarkcole/coral-pi-rest-server/blob/master/images/pi-zero.jpg" width="500">
