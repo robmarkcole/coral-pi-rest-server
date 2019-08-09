@@ -1,6 +1,6 @@
 Expose deep learning models on a Coral usb accelerator via a Flask app. To run the app and expose over a network: 
 ```
-$ python3 coral-app.py
+$ python3 coral-app.py --models_directory=/home/user/all_models/
 ```
 Then use curl to query:
 ```

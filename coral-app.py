@@ -4,6 +4,7 @@
 # 	curl -X POST -F image=@face.jpg 'http://localhost:5000/v1/vision/detection'
 
 from edgetpu.detection.engine import DetectionEngine
+import argparse
 from PIL import Image
 import flask
 import io
@@ -13,14 +14,6 @@ engine = None
 labels = None
 
 ROOT_URL = "/v1/vision/detection"
-PORT = 5000
-
-MODELS_DIR = "/home/pi/all_models/"
-MODEL = "mobilenet_ssd_v2_coco_quant_postprocess_edgetpu.tflite"
-LABELS = "coco_labels.txt"
-
-MODEL_FILE = MODELS_DIR + MODEL
-LABEL_FILE = MODELS_DIR + LABELS
 
 
 # Function to read labels from text files.
@@ -36,7 +29,7 @@ def ReadLabelFile(file_path):
 
 @app.route("/")
 def info():
-    info_str = "Flask app exposing tensorflow model: {}\n".format(MODEL)
+    info_str = "Flask app exposing tensorflow lite model {}".format(MODEL)
     return info_str
 
 
@@ -81,8 +74,30 @@ def predict():
 
 
 if __name__ == "__main__":
-    engine = DetectionEngine(MODEL_FILE)
-    print("\n Loaded engine with model : {}".format(MODEL))
+    parser = argparse.ArgumentParser(description="Flask app exposing coral USB stick")
+    parser.add_argument(
+        "--models_directory",
+        default="/home/pi/all_models/",
+        help="the directory containing the model & labels files",
+    )
+    parser.add_argument(
+        "--model",
+        default="mobilenet_ssd_v2_coco_quant_postprocess_edgetpu.tflite",
+        help="model file",
+    )
+    parser.add_argument(
+        "--labels", default="coco_labels.txt", help="labels file of model"
+    )
+    parser.add_argument("--port", default=5000, type=int, help="port number")
+    args = parser.parse_args()
 
-    labels = ReadLabelFile(LABEL_FILE)
-    app.run(host="0.0.0.0", port=PORT)
+    global MODEL
+    MODEL = args.model
+    model_file = args.models_directory + args.model
+    labels_file = args.models_directory + args.labels
+
+    engine = DetectionEngine(model_file)
+    print("\n Loaded engine with model : {}".format(model_file))
+
+    labels = ReadLabelFile(labels_file)
+    app.run(host="0.0.0.0", port=args.port)
