@@ -83,6 +83,35 @@ If you have installed the raspberry pi disk images from edgetpu-platforms then y
 * The official pre-compiled models are at -> https://coral.withgoogle.com/models/
 * It is [also possible to train your own models](https://coral.withgoogle.com/tutorials/edgetpu-models-intro/) -> try using Google Colaboratory as the free environment for training or -> https://cloud-annotations.github.io/training/object-detection/cli/index.html
 
+## Efficient-net
+* https://github.com/tensorflow/tpu/tree/master/models/official/efficientnet/edgetpu
+* TLDR: models optmised to run on the Coral hardware
+* To use:
+```
+$ export CORAL_APP_DIR=/home/user/coral-pi-rest-server
+$ cd 
+$ wget https://storage.googleapis.com/cloud-tpu-checkpoints/efficientnet/efficientnet-edgetpu-S.tar.gz
+$ tar zxf efficientnet-edgetpu-S.tar.gz
+$ cd efficientnet-edgetpu-S
+$ export MODELS_DIRECTORY=/home/user/all_models/efficient-net/efficientnet-edgetpu-S/
+$ export MODEL=efficientnet-edgetpu-S_float.tflite
+$ wget https://storage.googleapis.com/cloud-tpu-checkpoints/efficientnet/eval_data/labels_map.txt
+$ export LABELS=labels_map.txt
+$ cd $CORAL_APP_DIR
+$ python3 coral-app.py --models_directory=$MODELS_DIRECTORY --model=$MODEL --labels=$LABELS --port=5000
+
+Traceback (most recent call last):
+  File "coral-app.py", line 99, in <module>
+    engine = DetectionEngine(model_file)
+  File "/home/robin/python-tflite-source/edgetpu/detection/engine.py", line 44, in __init__
+    'This model has {}.'.format(output_tensors_sizes.size)))
+ValueError: Dectection model should have 4 output tensors!This model has 1.
+
+```
+
+
+
+
 ## Deepstack & Home Assistant
 The data returned by the app is as close as possible in format to that returned by Deepstack object detection endpoint, allowing you to use this app as the backend for [HASS-Deepstack-object](https://github.com/robmarkcole/HASS-Deepstack-object)
 
