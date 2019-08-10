@@ -1,6 +1,6 @@
 Expose deep learning models on a Coral usb accelerator via a Flask app. To run the app and expose over a network: 
 ```
-$ python3 coral-app.py --models_directory=/home/user/all_models/
+$ python3 coral-app.py
 ```
 Then use curl to query:
 ```
@@ -21,23 +21,28 @@ curl -X POST -F image=@images/test-image3.jpg 'http://localhost:5000/v1/vision/d
  'success': True}
 ```
 
+To see the help run:
+```
+$ python3 coral-app.py -h
+```
+
 See the [coral-app-usage.ipynb](https://github.com/robmarkcole/coral-pi-rest-server/blob/master/coral-app-usage.ipynb) Jupyter notebook for usage from python.
 
 ## Pi setup
 Install one of the disk images from [edgetpu-platforms](https://github.com/google-coral/edgetpu-platforms). In the `/home/pi` directory `git clone` this repository. You wil now have a file stucture like (pi3 &pi4 only, pi-zero [differs](https://github.com/google-coral/edgetpu-platforms/issues/13)):
 ```
-pi@raspberrypi:~ $ ls
+$ ls
 
 all_models  coral-pi-rest-server  edgetpu_api  examples-camera  project-posenet  project-teachable  simple-demo
 ```
 
 Use the `cd` command to enter `coral-pi-rest-server` and (system wide, no viretual environment) install the required dependencies:
 ```
-pi@raspberrypi:~/coral-pi-rest-server $ pip3 install -r requirements.txt
+~/coral-pi-rest-server $ pip3 install -r requirements.txt
 ```
 Now run the app:
 ```
-pi@raspberrypi:~/coral-pi-rest-server $ python3 coral-app.py
+~/coral-pi-rest-server $ python3 coral-app.py
 ```
 ### Use screen
 If you are running your pi in headless mode and connecting over SSH, you can use [screen](http://www.gnu.org/software/screen/manual/screen.html) to ensure you app still runs when you close the SSH connection. [Follow the instructions here](https://raspi.tv/2012/using-screen-with-raspberry-pi-to-avoid-leaving-ssh-sessions-open) to use screen. Alternatively you could [create a service using systemd](https://www.raspberrypi.org/documentation/linux/usage/systemd.md).
