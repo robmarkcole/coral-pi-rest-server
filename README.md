@@ -39,6 +39,8 @@ Now run the app:
 ```
 pi@raspberrypi:~/coral-pi-rest-server $ python3 coral-app.py
 ```
+### Use screen
+If you are running your pi in headless mode and connecting over SSH, you can use [screen](http://www.gnu.org/software/screen/manual/screen.html) to ensure you app still runs when you close the SSH connection. [Follow the instructions here](https://raspi.tv/2012/using-screen-with-raspberry-pi-to-avoid-leaving-ssh-sessions-open) to use screen. Alternatively you could [create a service using systemd](https://www.raspberrypi.org/documentation/linux/usage/systemd.md).
 
 ### Pi 3
 I am running a pi3 with the raspi camera below. FYI the camera is mounted on a [pan-tilt stage](https://shop.pimoroni.com/products/pan-tilt-hat).
