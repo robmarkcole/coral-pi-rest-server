@@ -45,7 +45,7 @@ Now run the app:
 ~/coral-pi-rest-server $ python3 coral-app.py
 ```
 ### Service
-You can run the app as a [service](https://www.raspberrypi.org/documentation/linux/usage/systemd.md). Edit `coral.service` file to fit your needs and copy into `/etc/systemd/system` as root using `sudo cp coral.service /etc/systemd/system/coral.service`. Once this has been copied, you can attempt to start the service using `sudo systemctl start coral.service`. See the status and logs with `sudo systemctl status coral.service`. Stop the service with `sudo systemctl stop coral.service`. You can have it start automatically on reboot by using `sudo systemctl enable myscript.service`.
+You can run the app as a [service](https://www.raspberrypi.org/documentation/linux/usage/systemd.md). Edit `coral.service` file to fit your needs and copy into `/etc/systemd/system` as root using `sudo cp coral.service /etc/systemd/system/coral.service`. Once this has been copied, you can attempt to start the service using `sudo systemctl start coral.service`. See the status and logs with `sudo systemctl status coral.service`. Stop the service with `sudo systemctl stop coral.service`. You can have it start automatically on reboot by using `sudo systemctl enable coral.service`.
 
 ### Pi 3
 I am running a pi3 with the raspi camera below. FYI the camera is mounted on a [pan-tilt stage](https://shop.pimoroni.com/products/pan-tilt-hat).
