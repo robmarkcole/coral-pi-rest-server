@@ -7,9 +7,14 @@ from edgetpu.detection.engine import DetectionEngine
 import argparse
 from PIL import Image
 import flask
+import logging
 import io
 
 app = flask.Flask(__name__)
+
+LOGFORMAT = "%(asctime)s %(levelname)s %(name)s %(threadName)s : %(message)s"
+logging.basicConfig(filename='coral.log', level=logging.DEBUG, format=LOGFORMAT)
+
 engine = None
 labels = None
 
