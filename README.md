@@ -36,7 +36,17 @@ $ ls
 all_models  coral-pi-rest-server  edgetpu_api  examples-camera  project-posenet  project-teachable  simple-demo
 ```
 
-Use the `cd` command to enter `coral-pi-rest-server` and (system wide, no viretual environment) install the required dependencies:
+Use the `cd` command to enter `~/simple-demo` and test you installation:
+```
+pi@pi:~/simple-demo $ python3 classify_image.py --model /home/pi/all_models/mobilenet_v2_1.0_224_inat_bird_quant_edgetpu.tflite --label  /home/pi/all_models/inat_bird_labels.txt --image  parrot.jpg
+
+INFO: Initialized TensorFlow Lite runtime.
+---------------------------
+Ara macao (Scarlet Macaw)
+Score :  0.76171875
+```
+
+Assuming you saw the result above, use the `cd` command to enter `~/coral-pi-rest-server` and (system wide, no viretual environment) install the required dependencies:
 ```
 ~/coral-pi-rest-server $ pip3 install -r requirements.txt
 ```
