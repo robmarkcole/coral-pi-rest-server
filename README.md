@@ -104,7 +104,9 @@ If you have installed the raspberry pi disk images from edgetpu-platforms then y
 The data returned by the app is as close as possible in format to that returned by Deepstack object detection endpoint, allowing you to use this app as the backend for [HASS-Deepstack-object](https://github.com/robmarkcole/HASS-Deepstack-object)
 
 ## Troubleshooting
-1) I get the error: `HandleQueuedBulkIn transfer in failed. Not found: USB transfer error 5 [LibUsbDataInCallback]`
+-----------------------------
+Q: I get the error: `HandleQueuedBulkIn transfer in failed. Not found: USB transfer error 5 [LibUsbDataInCallback]`
+A: I reflashed the SD card and tried again with success
 
 ## References
 * https://github.com/google-coral
