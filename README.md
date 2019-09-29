@@ -95,6 +95,9 @@ I found that I get inference time in the range 2.5 to 5s when querying from anot
 <img src="https://github.com/robmarkcole/coral-pi-rest-server/blob/master/images/pi-zero.jpg" width="500">
 </p>
 
+## Power
+I recommend using a power supply which can supply 3 Amps, [I use this one](https://www.amazon.co.uk/gp/product/B017YW2CKM/ref=ppx_yo_dt_b_asin_title_o00_s00?ie=UTF8&psc=1). Note that the official RPI supply delivers only 2.5 Amp and I found this was causing an issue where the stick would 'go to sleep' after a day of continual use.
+
 ## Models
 If you have installed the raspberry pi disk images from edgetpu-platforms then you already have all the models in `home/pi/all_models`. If you are using a linux desktop you will need to download the models.
 * The official pre-compiled models are at -> https://coral.withgoogle.com/models/
