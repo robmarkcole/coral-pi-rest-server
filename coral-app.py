@@ -81,7 +81,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Flask app exposing coral USB stick")
     parser.add_argument(
         "--models_directory",
-        default="/home/pi/all_models/",
+        default="~/Documents/GitHub/edgetpu/test_data/",
         help="the directory containing the model & labels files",
     )
     parser.add_argument(

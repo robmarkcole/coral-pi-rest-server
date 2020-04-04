@@ -22,3 +22,6 @@ __pycache__/
 # information for Eclipse / Flash Builder.
 
 *.log
+venv/*
+edgetpu_runtime/*
+.DS_store*

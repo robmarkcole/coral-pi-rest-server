@@ -1,4 +1,4 @@
-Expose deep learning models on a Coral usb accelerator via a Flask app. To run the app and expose over a network: 
+Perform inference using tensorflow-lite deep learning models with hardware acceleration provided by a Coral usb accelerator running on a raspberry pi or linux/mac. The models are exposed via a REST API allowing inference over a network. To run the app: 
 ```
 $ python3 coral-app.py
 ```
@@ -99,9 +99,10 @@ I found that I get inference time in the range 2.5 to 5s when querying from anot
 I recommend using a power supply which can supply 3 Amps, [I use this one](https://www.amazon.co.uk/gp/product/B017YW2CKM/ref=ppx_yo_dt_b_asin_title_o00_s00?ie=UTF8&psc=1). Note that the official RPI supply delivers only 2.5 Amp and I found this was causing an issue where the stick would 'go to sleep' after a day of continual use.
 
 ## Models
-If you have installed the raspberry pi disk images from edgetpu-platforms then you already have all the models in `home/pi/all_models`. If you are using a linux desktop you will need to download the models.
-* The official pre-compiled models are at -> https://coral.withgoogle.com/models/
-* It is [also possible to train your own models](https://coral.withgoogle.com/tutorials/edgetpu-models-intro/) -> try using Google Colaboratory as the free environment for training or -> https://cloud-annotations.github.io/training/object-detection/cli/index.html
+If you have installed the raspberry pi disk images from edgetpu-platforms then you already have all the models in `home/pi/all_models`. If you are using a mac/linux desktop you can download the models [from here](https://github.com/google-coral/edgetpu/tree/master/test_data). It is [also possible to train your own models](https://coral.withgoogle.com/tutorials/edgetpu-models-intro/) -> try using Google Colaboratory as the free environment for training or -> https://cloud-annotations.github.io/training/object-detection/cli/index.html
+
+## Mac
+To use the coral with a mac follow the official install instructions [here](https://coral.ai/docs/accelerator/get-started/#on-mac)
 
 ## No coral?
 I created a fork of this project that does not require a Coral at https://github.com/robmarkcole/tensorflow-lite-rest-server
