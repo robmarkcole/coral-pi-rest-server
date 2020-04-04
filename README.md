@@ -103,6 +103,9 @@ If you have installed the raspberry pi disk images from edgetpu-platforms then y
 * The official pre-compiled models are at -> https://coral.withgoogle.com/models/
 * It is [also possible to train your own models](https://coral.withgoogle.com/tutorials/edgetpu-models-intro/) -> try using Google Colaboratory as the free environment for training or -> https://cloud-annotations.github.io/training/object-detection/cli/index.html
 
+## No coral?
+I created a fork of this project that does not require a Coral at https://github.com/robmarkcole/tensorflow-lite-rest-server
+
 ## Deepstack & Home Assistant
 The data returned by the app is as close as possible in format to that returned by Deepstack object detection endpoint, allowing you to use this app as the backend for [HASS-Deepstack-object](https://github.com/robmarkcole/HASS-Deepstack-object)
 
