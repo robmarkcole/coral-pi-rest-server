@@ -13,10 +13,14 @@ import io
 app = flask.Flask(__name__)
 
 LOGFORMAT = "%(asctime)s %(levelname)s %(name)s %(threadName)s : %(message)s"
-logging.basicConfig(filename='coral.log', level=logging.DEBUG, format=LOGFORMAT)
+logging.basicConfig(filename="coral.log", level=logging.DEBUG, format=LOGFORMAT)
 
 engine = None
 labels = None
+
+DEFAULT_MODELS_DIRECTORY = "~/Documents/GitHub/edgetpu/test_data/"
+DEFAULT_MODEL = "mobilenet_ssd_v2_coco_quant_postprocess_edgetpu.tflite"
+DEFAULT_LABELS = "coco_labels.txt"
 
 ROOT_URL = "/v1/vision/detection"
 
@@ -81,17 +85,13 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Flask app exposing coral USB stick")
     parser.add_argument(
         "--models_directory",
-        default="~/Documents/GitHub/edgetpu/test_data/",
+        default=DEFAULT_MODELS_DIRECTORY,
         help="the directory containing the model & labels files",
     )
     parser.add_argument(
-        "--model",
-        default="mobilenet_ssd_v2_coco_quant_postprocess_edgetpu.tflite",
-        help="model file",
+        "--model", default=DEFAULT_MODEL, help="model file",
     )
-    parser.add_argument(
-        "--labels", default="coco_labels.txt", help="labels file of model"
-    )
+    parser.add_argument("--labels", default=DEFAULT_LABELS, help="labels file of model")
     parser.add_argument("--port", default=5000, type=int, help="port number")
     args = parser.parse_args()
 

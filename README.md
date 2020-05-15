@@ -1,4 +1,5 @@
-Perform inference using tensorflow-lite deep learning models with hardware acceleration provided by a Coral usb accelerator running on a raspberry pi or linux/mac. The models are exposed via a REST API allowing inference over a network. To run the app: 
+## coral-pi-rest-server
+Perform inference using tensorflow-lite deep learning models with hardware acceleration provided by a Coral usb accelerator running on a raspberry pi or linux/mac. The models are exposed via a REST API allowing inference over a network. To run the app (with defaults that you will need to change): 
 ```
 $ python3 coral-app.py
 ```
@@ -28,8 +29,14 @@ $ python3 coral-app.py -h
 
 See the [coral-app-usage.ipynb](https://github.com/robmarkcole/coral-pi-rest-server/blob/master/coral-app-usage.ipynb) Jupyter notebook for usage from python.
 
-## Pi setup
-Install one of the disk images from [edgetpu-platforms](https://github.com/google-coral/edgetpu-platforms). In the `/home/pi` directory `git clone` this repository. You wil now have a file stucture like (pi3 &pi4 only, pi-zero [differs](https://github.com/google-coral/edgetpu-platforms/issues/13)):
+## Models
+If you have installed the raspberry pi disk images from edgetpu-platforms then you already have all the models in `home/pi/all_models`. If you are using a mac/linux desktop you can download the models [from here](https://github.com/google-coral/edgetpu/tree/master/test_data). It is [also possible to train your own models](https://coral.withgoogle.com/tutorials/edgetpu-models-intro/) -> try using Google Colaboratory as the free environment for training or -> https://cloud-annotations.github.io/training/object-detection/cli/index.html
+
+## Pi setup on existing pi
+Follow the instructions on -> https://coral.ai/docs/accelerator/get-started/#1-install-the-edge-tpu-runtime
+
+## Pi setup with disk image
+Install one of the disk images from [edgetpu-platforms](https://github.com/google-coral/edgetpu-platforms). In the `/home/pi` directory `git clone` this repository. You wil now have a file structure like (pi3 &pi4 only, pi-zero [differs](https://github.com/google-coral/edgetpu-platforms/issues/13)):
 ```
 $ ls
 
@@ -46,7 +53,7 @@ Ara macao (Scarlet Macaw)
 Score :  0.76171875
 ```
 
-Assuming you saw the result above, use the `cd` command to enter `~/coral-pi-rest-server` and (system wide, no viretual environment) install the required dependencies:
+Assuming you saw the result above, use the `cd` command to enter `~/coral-pi-rest-server` and (system wide, no virtual environment) install the required dependencies:
 ```
 ~/coral-pi-rest-server $ pip3 install -r requirements.txt
 ```
@@ -69,37 +76,11 @@ Using the pi3 (which has only usb2) processing a single request from another mac
 ### Pi 4
 The pi4 has USB3 so we would expect better speeds. However I get inference time consistently ~ 500 ms when querying from another machine. Therefore it appears the coral library does not yet take advantage of the USB3.
 
-<p align="center">
-<img src="https://github.com/robmarkcole/coral-pi-rest-server/blob/master/images/pi4.jpg" width="500">
-</p>
-
 ## Pi-zero
-Pi zero disk image differs from the pi3 and pi4 images. To check your pi-zero disk image run:
-```
-~/simple-demo $ python3 classify_image.py \
- --model models/mobilenet_v2_1.0_224_inat_bird_quant_edgetpu.tflite \
- --label models/inat_bird_labels.txt \
- --image parrot.jpg
-
----------------------------
-Ara macao (Scarlet Macaw)
-Score :  0.761719
-```
-To install flask I had to `sudo pip3 install flask` as attempts using `requirements.txt` kept timing out. Also since the directory structure is different on the pi-zero, in `coral-app.py` you need to edit:
-```
-MODELS_DIR = "/home/pi/simple-demo/models/"
-```
 I found that I get inference time in the range 2.5 to 5s when querying from another machine, so significantly slower than the pi3/pi4.
-
-<p align="center">
-<img src="https://github.com/robmarkcole/coral-pi-rest-server/blob/master/images/pi-zero.jpg" width="500">
-</p>
 
 ## Power
 I recommend using a power supply which can supply 3 Amps, [I use this one](https://www.amazon.co.uk/gp/product/B017YW2CKM/ref=ppx_yo_dt_b_asin_title_o00_s00?ie=UTF8&psc=1). Note that the official RPI supply delivers only 2.5 Amp and I found this was causing an issue where the stick would 'go to sleep' after a day of continual use.
-
-## Models
-If you have installed the raspberry pi disk images from edgetpu-platforms then you already have all the models in `home/pi/all_models`. If you are using a mac/linux desktop you can download the models [from here](https://github.com/google-coral/edgetpu/tree/master/test_data). It is [also possible to train your own models](https://coral.withgoogle.com/tutorials/edgetpu-models-intro/) -> try using Google Colaboratory as the free environment for training or -> https://cloud-annotations.github.io/training/object-detection/cli/index.html
 
 ## Mac
 To use the coral with a mac follow the official install instructions [here](https://coral.ai/docs/accelerator/get-started/#on-mac)

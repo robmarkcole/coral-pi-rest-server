@@ -25,3 +25,4 @@ __pycache__/
 venv/*
 edgetpu_runtime/*
 .DS_store*
+.ipynb_checkpoints
