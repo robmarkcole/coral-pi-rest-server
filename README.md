@@ -1,7 +1,7 @@
 ## coral-pi-rest-server
-Perform inference using tensorflow-lite deep learning models with hardware acceleration provided by a Coral usb accelerator running on a raspberry pi or linux/mac. The models are exposed via a REST API allowing inference over a network. To run the app (with defaults that you will need to change): 
+Perform inference using tensorflow-lite deep learning models with hardware acceleration provided by a Coral usb accelerator running on a raspberry pi or linux/mac. The models are exposed via a REST API allowing inference over a network. To run the app with default model: 
 ```
-$ python3 coral-app.py
+$ python3 coral-app.py --models-directory ~/my/dir
 ```
 Then use curl to query:
 ```
@@ -29,11 +29,13 @@ $ python3 coral-app.py -h
 
 See the [coral-app-usage.ipynb](https://github.com/robmarkcole/coral-pi-rest-server/blob/master/coral-app-usage.ipynb) Jupyter notebook for usage from python.
 
+**Warning**: it has been quite frustrating working with this hardware, with many tedious setup problems, hardware timeouts. Therefore I created a fork of this project that does not require a Coral at https://github.com/robmarkcole/tensorflow-lite-rest-server On an RPI 4 inference times are very fast even without a coral.
+
 ## Models
 If you have installed the raspberry pi disk images from edgetpu-platforms then you already have all the models in `home/pi/all_models`. If you are using a mac/linux desktop you can download the models [from here](https://github.com/google-coral/edgetpu/tree/master/test_data). It is [also possible to train your own models](https://coral.withgoogle.com/tutorials/edgetpu-models-intro/) -> try using Google Colaboratory as the free environment for training or -> https://cloud-annotations.github.io/training/object-detection/cli/index.html
 
 ## Pi setup on existing pi
-Follow the instructions on -> https://coral.ai/docs/accelerator/get-started/#1-install-the-edge-tpu-runtime
+Follow the instructions on -> https://coral.ai/docs/accelerator/get-started/#1-install-the-edge-tpu-runtime Note I had headaches with this approach, better to use the disk image.
 
 ## Pi setup with disk image
 Install one of the disk images from [edgetpu-platforms](https://github.com/google-coral/edgetpu-platforms). In the `/home/pi` directory `git clone` this repository. You wil now have a file structure like (pi3 &pi4 only, pi-zero [differs](https://github.com/google-coral/edgetpu-platforms/issues/13)):
