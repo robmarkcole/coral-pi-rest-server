@@ -1,7 +1,7 @@
 ## coral-pi-rest-server
 Perform inference using tensorflow-lite deep learning models with hardware acceleration provided by a Coral usb accelerator running on a raspberry pi or linux/mac. The models are exposed via a REST API allowing inference over a network. To run the app with default model: 
 ```
-$ python3 coral-app.py --models-directory ~/my/dir
+$ python3 coral-app.py --models-directory models
 ```
 Then use curl to query:
 ```

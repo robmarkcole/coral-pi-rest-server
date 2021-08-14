@@ -3,23 +3,25 @@
 # Submit a request via cURL:
 # 	curl -X POST -F image=@face.jpg 'http://localhost:5000/v1/vision/detection'
 
-from edgetpu.detection.engine import DetectionEngine
 import argparse
-from PIL import Image
-import flask
-import logging
 import io
+import logging
+
+import flask
+from PIL import Image
+from pycoral.adapters import classify, common
+from pycoral.utils import dataset, edgetpu
 
 app = flask.Flask(__name__)
 
 LOGFORMAT = "%(asctime)s %(levelname)s %(name)s %(threadName)s : %(message)s"
 logging.basicConfig(filename="coral.log", level=logging.DEBUG, format=LOGFORMAT)
 
-engine = None
+interpreter = None
 labels = None
 
-DEFAULT_MODELS_DIRECTORY = "~/Documents/GitHub/edgetpu/test_data/"
-DEFAULT_MODEL = "mobilenet_ssd_v2_coco_quant_postprocess_edgetpu.tflite"
+DEFAULT_MODELS_DIRECTORY = "models"
+DEFAULT_MODEL = "ssd_mobilenet_v2_coco_quant_postprocess_edgetpu.tflite"
 DEFAULT_LABELS = "coco_labels.txt"
 
 ROOT_URL = "/v1/vision/detection"
@@ -52,14 +54,13 @@ def predict():
             image_bytes = image_file.read()
             image = Image.open(io.BytesIO(image_bytes))
 
-            # Run inference.
-            predictions = engine.DetectWithImage(
-                image,
-                threshold=0.05,
-                keep_aspect_ratio=True,
-                relative_coord=False,
-                top_k=10,
-            )
+            size = common.input_size(interpreter)
+            image = image.convert("RGB").resize(size, Image.ANTIALIAS)
+
+            # Run an inference
+            common.set_input(interpreter, image)
+            interpreter.invoke()
+            predictions = classify.get_classes(interpreter, top_k=10)
 
             if predictions:
                 data["success"] = True
@@ -89,7 +90,9 @@ if __name__ == "__main__":
         help="the directory containing the model & labels files",
     )
     parser.add_argument(
-        "--model", default=DEFAULT_MODEL, help="model file",
+        "--model",
+        default=DEFAULT_MODEL,
+        help="model file",
     )
     parser.add_argument("--labels", default=DEFAULT_LABELS, help="labels file of model")
     parser.add_argument("--port", default=5000, type=int, help="port number")
@@ -100,8 +103,9 @@ if __name__ == "__main__":
     model_file = args.models_directory + args.model
     labels_file = args.models_directory + args.labels
 
-    engine = DetectionEngine(model_file)
-    print("\n Loaded engine with model : {}".format(model_file))
+    interpreter = edgetpu.make_interpreter(model_file)
+    interpreter.allocate_tensors()
+    print("\n Initialised interpreter with model : {}".format(model_file))
 
     labels = ReadLabelFile(labels_file)
     app.run(host="0.0.0.0", port=args.port)

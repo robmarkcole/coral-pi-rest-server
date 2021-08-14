@@ -1,4 +1,5 @@
 Flask
+Pillow
+# black
+# isort
 # pycoral read official docs
-#Pillow
-#numpy
