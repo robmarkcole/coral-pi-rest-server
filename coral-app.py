@@ -1,10 +1,11 @@
 # Start the server:
 # 	python3 coral-app.py
 # Submit a request via cURL:
-# 	curl -X POST -F image=@face.jpg 'http://localhost:5000/v1/vision/detection'
+# 	curl -X POST -F image=@images/test-image3.jpg 'http://localhost:5000/v1/vision/detection'
 
 import argparse
 import io
+import os
 import logging
 
 import flask
@@ -17,26 +18,11 @@ app = flask.Flask(__name__)
 LOGFORMAT = "%(asctime)s %(levelname)s %(name)s %(threadName)s : %(message)s"
 logging.basicConfig(filename="coral.log", level=logging.DEBUG, format=LOGFORMAT)
 
-interpreter = None
-labels = None
-
 DEFAULT_MODELS_DIRECTORY = "models"
 DEFAULT_MODEL = "ssd_mobilenet_v2_coco_quant_postprocess_edgetpu.tflite"
 DEFAULT_LABELS = "coco_labels.txt"
 
 ROOT_URL = "/v1/vision/detection"
-
-
-# Function to read labels from text files.
-def ReadLabelFile(file_path):
-    with open(file_path, "r", encoding="utf-8") as f:
-        lines = f.readlines()
-        ret = {}
-        for line in lines:
-            pair = line.strip().split(maxsplit=1)
-            ret[int(pair[0])] = pair[1].strip()
-    return ret
-
 
 @app.route("/")
 def info():
@@ -100,12 +86,20 @@ if __name__ == "__main__":
 
     global MODEL
     MODEL = args.model
-    model_file = args.models_directory + args.model
-    labels_file = args.models_directory + args.labels
+    model_file = os.path.join(args.models_directory, args.model)
+    assert os.path.isfile(model_file)
 
-    interpreter = edgetpu.make_interpreter(model_file)
-    interpreter.allocate_tensors()
-    print("\n Initialised interpreter with model : {}".format(model_file))
+    labels_file = os.path.join(args.models_directory, args.labels)
+    assert os.path.isfile(labels_file)
 
-    labels = ReadLabelFile(labels_file)
-    app.run(host="0.0.0.0", port=args.port)
+    global labels
+    labels = dataset.read_label_file(labels_file)
+
+    try:
+        global interpreter
+        interpreter = edgetpu.make_interpreter(model_file)
+        interpreter.allocate_tensors()
+        print("\n Initialised interpreter with model : {}".format(model_file))
+        app.run(host="0.0.0.0", debug=True, port=args.port)
+    except Exception as exc:
+        print(exc)

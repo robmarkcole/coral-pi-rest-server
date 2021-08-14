@@ -1,5 +1,5 @@
 ## coral-pi-rest-server
-Perform inference using tensorflow-lite deep learning models with hardware acceleration provided by a Coral usb accelerator running on a raspberry pi or linux/mac. The models are exposed via a REST API allowing inference over a network. To run the app with default model: 
+Perform inference using tensorflow-lite deep learning models with hardware acceleration provided by a Coral usb accelerator running on a raspberry pi or linux/mac. The models are exposed via a REST API allowing inference over a network. To run the app with default model:
 ```
 $ python3 coral-app.py --models-directory models
 ```
@@ -97,6 +97,9 @@ The data returned by the app is as close as possible in format to that returned 
 -----------------------------
 Q: I get the error: `HandleQueuedBulkIn transfer in failed. Not found: USB transfer error 5 [LibUsbDataInCallback]`
 A: I reflashed the SD card and tried again with success
+
+Q: I get error `ValueError: Failed to load delegate from libedgetpu.1.dylib`
+A: libedgetpu is not in the expected location
 
 ## References
 * https://github.com/google-coral
