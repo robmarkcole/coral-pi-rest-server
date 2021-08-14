@@ -10,7 +10,7 @@ import logging
 
 import flask
 from PIL import Image
-from pycoral.adapters import classify, common
+from pycoral.adapters import detect, common
 from pycoral.utils import dataset, edgetpu
 
 app = flask.Flask(__name__)
@@ -46,20 +46,25 @@ def predict():
             # Run an inference
             common.set_input(interpreter, image)
             interpreter.invoke()
-            predictions = classify.get_classes(interpreter, top_k=10)
+            _, scale = common.set_resized_input(
+                interpreter, image.size, lambda size: image.resize(size, Image.ANTIALIAS))
 
-            if predictions:
+            threshold=0.4
+            objs = detect.get_objects(interpreter, threshold, scale)
+
+            if objs:
                 data["success"] = True
                 preds = []
-                for prediction in predictions:
+
+                for obj in objs:
                     preds.append(
                         {
-                            "confidence": float(prediction.score),
-                            "label": labels[prediction.label_id],
-                            "y_min": int(prediction.bounding_box[0, 1]),
-                            "x_min": int(prediction.bounding_box[0, 0]),
-                            "y_max": int(prediction.bounding_box[1, 1]),
-                            "x_max": int(prediction.bounding_box[1, 0]),
+                            "confidence": float(obj.score),
+                            "label": labels[obj.id],
+                            "y_min": int(obj.bbox[0]),
+                            "x_min": int(obj.bbox[1]),
+                            "y_max": int(obj.bbox[2]),
+                            "x_max": int(obj.bbox[3]),
                         }
                     )
                 data["predictions"] = preds
