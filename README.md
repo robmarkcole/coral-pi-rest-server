@@ -109,3 +109,12 @@ A: I reflashed the SD card and tried again with success
 
 ## Credit
 I forked the code in this excellent article -> https://blog.keras.io/building-a-simple-keras-deep-learning-rest-api.html [code](https://github.com/jrosebr1/simple-keras-rest-api)
+
+## Development Mac
+Note: important to use USB-C to USB-C cable. Had some connection issues initially documented in [this issue](https://github.com/google-coral/pycoral/issues/35)
+
+* `python3 -m venv venv`
+* `source venv/bin/activate`
+* `pip install -r requirements.txt`
+* `python3 -m pip install --index-url https://google-coral.github.io/py-repo/ --extra-index-url=https://pypi.python.org/simple pycoral`
+* `python3 coral-app.py`
