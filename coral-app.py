@@ -95,11 +95,9 @@ if __name__ == "__main__":
     global labels
     labels = dataset.read_label_file(labels_file)
 
-    try:
-        global interpreter
-        interpreter = edgetpu.make_interpreter(model_file)
-        interpreter.allocate_tensors()
-        print("\n Initialised interpreter with model : {}".format(model_file))
-        app.run(host="0.0.0.0", debug=True, port=args.port)
-    except Exception as exc:
-        print(exc)
+    global interpreter
+    interpreter = edgetpu.make_interpreter(model_file)
+    interpreter.allocate_tensors()
+    print("\n Initialised interpreter with model : {}".format(model_file))
+
+    app.run(host="0.0.0.0", debug=True, port=args.port)
