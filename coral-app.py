@@ -1,40 +1,28 @@
 # Start the server:
 # 	python3 coral-app.py
 # Submit a request via cURL:
-# 	curl -X POST -F image=@face.jpg 'http://localhost:5000/v1/vision/detection'
+# 	curl -X POST -F image=@images/test-image3.jpg 'http://localhost:5000/v1/vision/detection'
 
-from edgetpu.detection.engine import DetectionEngine
 import argparse
-from PIL import Image
-import flask
-import logging
 import io
+import os
+import logging
+
+import flask
+from PIL import Image
+from pycoral.adapters import classify, common
+from pycoral.utils import dataset, edgetpu
 
 app = flask.Flask(__name__)
 
 LOGFORMAT = "%(asctime)s %(levelname)s %(name)s %(threadName)s : %(message)s"
 logging.basicConfig(filename="coral.log", level=logging.DEBUG, format=LOGFORMAT)
 
-engine = None
-labels = None
-
-DEFAULT_MODELS_DIRECTORY = "~/Documents/GitHub/edgetpu/test_data/"
-DEFAULT_MODEL = "mobilenet_ssd_v2_coco_quant_postprocess_edgetpu.tflite"
+DEFAULT_MODELS_DIRECTORY = "models"
+DEFAULT_MODEL = "ssd_mobilenet_v2_coco_quant_postprocess_edgetpu.tflite"
 DEFAULT_LABELS = "coco_labels.txt"
 
 ROOT_URL = "/v1/vision/detection"
-
-
-# Function to read labels from text files.
-def ReadLabelFile(file_path):
-    with open(file_path, "r", encoding="utf-8") as f:
-        lines = f.readlines()
-        ret = {}
-        for line in lines:
-            pair = line.strip().split(maxsplit=1)
-            ret[int(pair[0])] = pair[1].strip()
-    return ret
-
 
 @app.route("/")
 def info():
@@ -52,14 +40,13 @@ def predict():
             image_bytes = image_file.read()
             image = Image.open(io.BytesIO(image_bytes))
 
-            # Run inference.
-            predictions = engine.DetectWithImage(
-                image,
-                threshold=0.05,
-                keep_aspect_ratio=True,
-                relative_coord=False,
-                top_k=10,
-            )
+            size = common.input_size(interpreter)
+            image = image.convert("RGB").resize(size, Image.ANTIALIAS)
+
+            # Run an inference
+            common.set_input(interpreter, image)
+            interpreter.invoke()
+            predictions = classify.get_classes(interpreter, top_k=10)
 
             if predictions:
                 data["success"] = True
@@ -89,7 +76,9 @@ if __name__ == "__main__":
         help="the directory containing the model & labels files",
     )
     parser.add_argument(
-        "--model", default=DEFAULT_MODEL, help="model file",
+        "--model",
+        default=DEFAULT_MODEL,
+        help="model file",
     )
     parser.add_argument("--labels", default=DEFAULT_LABELS, help="labels file of model")
     parser.add_argument("--port", default=5000, type=int, help="port number")
@@ -97,11 +86,18 @@ if __name__ == "__main__":
 
     global MODEL
     MODEL = args.model
-    model_file = args.models_directory + args.model
-    labels_file = args.models_directory + args.labels
+    model_file = os.path.join(args.models_directory, args.model)
+    assert os.path.isfile(model_file)
 
-    engine = DetectionEngine(model_file)
-    print("\n Loaded engine with model : {}".format(model_file))
+    labels_file = os.path.join(args.models_directory, args.labels)
+    assert os.path.isfile(labels_file)
 
-    labels = ReadLabelFile(labels_file)
-    app.run(host="0.0.0.0", port=args.port)
+    global labels
+    labels = dataset.read_label_file(labels_file)
+
+    global interpreter
+    interpreter = edgetpu.make_interpreter(model_file)
+    interpreter.allocate_tensors()
+    print("\n Initialised interpreter with model : {}".format(model_file))
+
+    app.run(host="0.0.0.0", debug=True, port=args.port)
