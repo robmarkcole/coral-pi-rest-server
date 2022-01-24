@@ -9,6 +9,7 @@ from PIL import Image
 import flask
 import logging
 import io
+import time
 
 app = flask.Flask(__name__)
 
@@ -35,6 +36,9 @@ def ReadLabelFile(file_path):
             ret[int(pair[0])] = pair[1].strip()
     return ret
 
+# Function to return time in milliseconds
+def current_milli_time():
+    return round(time.time() * 1000)
 
 @app.route("/")
 def info():
@@ -52,14 +56,21 @@ def predict():
             image_bytes = image_file.read()
             image = Image.open(io.BytesIO(image_bytes))
 
+            # initiate execution timer
+            start = current_milli_time()
+
             # Run inference.
-            predictions = engine.DetectWithImage(
+            predictions = engine.detect_with_image(
                 image,
                 threshold=0.05,
                 keep_aspect_ratio=True,
                 relative_coord=False,
                 top_k=10,
             )
+
+            # calculate detection time
+            duration = current_milli_time() - start
+            data["duration"] = duration
 
             if predictions:
                 data["success"] = True
@@ -105,3 +116,4 @@ if __name__ == "__main__":
 
     labels = ReadLabelFile(labels_file)
     app.run(host="0.0.0.0", port=args.port)
+
