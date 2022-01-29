@@ -31,14 +31,22 @@ def ReadLabelFile(file_path):
     with open(file_path, "r", encoding="utf-8") as f:
         lines = f.readlines()
         ret = {}
-        for line in lines:
-            pair = line.strip().split(maxsplit=1)
-            ret[int(pair[0])] = pair[1].strip()
+        counter = 0
+        for label in lines:
+            pair = label.strip().split(maxsplit=1)
+            if (len(pair) > 1):
+                try:
+                  counter = int(pair[0])
+                  label = pair[1]
+                except ValueError:
+                  pass
+            ret[counter] = label.strip()
+            counter += 1
     return ret
 
 # Function to return time in milliseconds
 def current_milli_time():
-    return round(time.time() * 1000)
+    return round(time.time() * 1000, 4)
 
 @app.route("/")
 def info():
@@ -71,21 +79,25 @@ def predict():
             # calculate detection time
             duration = current_milli_time() - start
             data["duration"] = duration
+            app.logger.debug('Detection time %s ms', duration)
 
             if predictions:
                 data["success"] = True
                 preds = []
                 for prediction in predictions:
-                    preds.append(
-                        {
-                            "confidence": float(prediction.score),
-                            "label": labels[prediction.label_id],
-                            "y_min": int(prediction.bounding_box[0, 1]),
-                            "x_min": int(prediction.bounding_box[0, 0]),
-                            "y_max": int(prediction.bounding_box[1, 1]),
-                            "x_max": int(prediction.bounding_box[1, 0]),
-                        }
-                    )
+                    try:
+                        preds.append(
+                            {
+                                "confidence": float(prediction.score),
+                                "label": labels[prediction.label_id],
+                                "y_min": int(prediction.bounding_box[0, 1]),
+                                "x_min": int(prediction.bounding_box[0, 0]),
+                                "y_max": int(prediction.bounding_box[1, 1]),
+                                "x_max": int(prediction.bounding_box[1, 0]),
+                            }
+                        )
+                    except KeyError:
+                        app.logger.error("Label %s doesn't exist", prediction.label_id)
                 data["predictions"] = preds
 
     # return the data dictionary as a JSON response
