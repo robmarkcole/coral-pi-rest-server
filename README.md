@@ -91,7 +91,7 @@ To use the coral with a mac follow the official install instructions [here](http
 I created a fork of this project that does not require a Coral at https://github.com/robmarkcole/tensorflow-lite-rest-server
 
 ## Deepstack & Home Assistant
-The data returned by the app is as close as possible in format to that returned by Deepstack object detection endpoint, allowing you to use this app as the backend for [HASS-Deepstack-object](https://github.com/robmarkcole/HASS-Deepstack-object)
+The data returned by the app is as close as possible in format to that returned by Deepstack object detection endpoint, allowing you to use this app as the backend for [HASS-Deepstack-object](https://github.com/robmarkcole/HASS-Deepstack-object). There is also support for running as an addon via [github.com/grinco/HASS-coral-rest-api](https://github.com/grinco/HASS-coral-rest-api)
 
 ## Troubleshooting
 -----------------------------
