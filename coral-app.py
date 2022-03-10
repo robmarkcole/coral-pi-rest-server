@@ -17,6 +17,10 @@ app = flask.Flask(__name__)
 
 LOGFORMAT = "%(asctime)s %(levelname)s %(name)s %(threadName)s : %(message)s"
 logging.basicConfig(filename="coral.log", level=logging.DEBUG, format=LOGFORMAT)
+stderrLogger=logging.StreamHandler()
+stderrLogger.setFormatter(logging.Formatter(logging.BASIC_FORMAT))
+logging.getLogger().addHandler(stderrLogger)
+
 
 DEFAULT_MODELS_DIRECTORY = "models"
 DEFAULT_MODEL = "ssd_mobilenet_v2_coco_quant_postprocess_edgetpu.tflite"
