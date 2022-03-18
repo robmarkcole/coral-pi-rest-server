@@ -65,10 +65,10 @@ def predict():
                         {
                             "confidence": float(obj.score),
                             "label": labels[obj.id],
-                            "y_min": int(obj.bbox[0]),
-                            "x_min": int(obj.bbox[1]),
-                            "y_max": int(obj.bbox[2]),
-                            "x_max": int(obj.bbox[3]),
+                            "y_min": int(obj.bbox[1]),
+                            "x_min": int(obj.bbox[0]),
+                            "y_max": int(obj.bbox[3]),
+                            "x_max": int(obj.bbox[2]),
                         }
                     )
                 data["predictions"] = preds
