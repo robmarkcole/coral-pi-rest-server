@@ -47,13 +47,14 @@ def predict():
             image_file = flask.request.files["image"]
             image_bytes = image_file.read()
             image = Image.open(io.BytesIO(image_bytes))
-
+            print('image.size: ', image.size)
             size = common.input_size(interpreter)
+            print('size: ', size)
             image = image.convert("RGB").resize(size, Image.ANTIALIAS)
-
+            print('image.size2: ', image.size)
             _, scale = common.set_resized_input(
                 interpreter, image.size, lambda size: image.resize(size, Image.ANTIALIAS))
-
+            print('scale: ', scale)
 
             # Run an inference
             common.set_input(interpreter, image)
