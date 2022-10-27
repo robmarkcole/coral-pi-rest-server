@@ -48,22 +48,15 @@ def predict():
             image_file = flask.request.files["image"]
             image_bytes = image_file.read()
             image = Image.open(io.BytesIO(image_bytes))
-            logging.debug('image.size: '.(image.size))
-            size = common.input_size(interpreter)
-            logging.debug('size: '.size)
-            image = image.convert("RGB").resize(size, Image.ANTIALIAS)
-            logging.debug('image.size2: '.(image.size))
             _, scale = common.set_resized_input(
                 interpreter, image.size, lambda size: image.resize(size, Image.ANTIALIAS))
-            logging.debug('scale: '.scale)
-
+            
             # Run an inference
-            common.set_input(interpreter, image)
-            start = time.perf_counter()
+            #start = time.perf_counter()
             interpreter.invoke()
-            inference_time = time.perf_counter() - start
+            #inference_time = time.perf_counter() - start
             objs = detect.get_objects(interpreter, threshold, scale)
-            logging.debug('%.2f ms' % (inference_time * 1000))
+            #logging.debug('%.2f ms' % (inference_time * 1000))
             if objs:
                 data["success"] = True
                 preds = []
@@ -80,10 +73,6 @@ def predict():
                                 "x_max": int(obj.bbox.xmax),
                             }
                         )
-                    logging.debug(labels.get(obj.id, obj.id))
-                    logging.debug('  id:    '.obj.id)
-                    logging.debug('  score: '.(obj.score))
-                    logging.debug('  bbox:  '.(obj.bbox))
                 data["predictions"] = preds
             else:
                 logging.debug('No objects detected')
