@@ -48,14 +48,14 @@ def predict():
             image_file = flask.request.files["image"]
             image_bytes = image_file.read()
             image = Image.open(io.BytesIO(image_bytes))
-            logging.debug('image.size: ', image.size)
+            logging.debug('image.size: '.(image.size))
             size = common.input_size(interpreter)
-            logging.debug('size: ', size)
+            logging.debug('size: '.size)
             image = image.convert("RGB").resize(size, Image.ANTIALIAS)
-            logging.debug('image.size2: ', image.size)
+            logging.debug('image.size2: '.(image.size))
             _, scale = common.set_resized_input(
                 interpreter, image.size, lambda size: image.resize(size, Image.ANTIALIAS))
-            logging.debug('scale: ', scale)
+            logging.debug('scale: '.scale)
 
             # Run an inference
             common.set_input(interpreter, image)
@@ -81,9 +81,9 @@ def predict():
                             }
                         )
                     logging.debug(labels.get(obj.id, obj.id))
-                    logging.debug('  id:    ', obj.id)
-                    logging.debug('  score: ', obj.score)
-                    logging.debug('  bbox:  ', obj.bbox)
+                    logging.debug('  id:    '.obj.id)
+                    logging.debug('  score: '.(obj.score))
+                    logging.debug('  bbox:  '.(obj.bbox))
                 data["predictions"] = preds
             else:
                 logging.debug('No objects detected')
