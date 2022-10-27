@@ -7,6 +7,7 @@ import argparse
 import io
 import os
 import logging
+import time
 
 import flask
 from PIL import Image
