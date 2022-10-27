@@ -39,6 +39,10 @@ def predict():
     data = {"success": False}
 
     if flask.request.method == "POST":
+        if flask.request.form.get('min_confidence'):
+            threshold=float(flask.request.form['min_confidence'])
+        else:
+            threshold=float(0.4)
         if flask.request.files.get("image"):
             image_file = flask.request.files["image"]
             image_bytes = image_file.read()
@@ -52,8 +56,6 @@ def predict():
             interpreter.invoke()
             _, scale = common.set_resized_input(
                 interpreter, image.size, lambda size: image.resize(size, Image.ANTIALIAS))
-
-            threshold=0.4
             objs = detect.get_objects(interpreter, threshold, scale)
 
             if objs:
@@ -61,16 +63,17 @@ def predict():
                 preds = []
 
                 for obj in objs:
-                    preds.append(
-                        {
-                            "confidence": float(obj.score),
-                            "label": labels[obj.id],
-                            "y_min": int(obj.bbox[1]),
-                            "x_min": int(obj.bbox[0]),
-                            "y_max": int(obj.bbox[3]),
-                            "x_max": int(obj.bbox[2]),
-                        }
-                    )
+                    if float(obj.score) >= float(threshold):
+                        preds.append(
+                            {
+                                "confidence": float(obj.score),
+                                "label": labels[obj.id],
+                                "y_min": int(obj.bbox[1]),
+                                "x_min": int(obj.bbox[0]),
+                                "y_max": int(obj.bbox[3]),
+                                "x_max": int(obj.bbox[2]),
+                            }
+                        )
                 data["predictions"] = preds
 
     # return the data dictionary as a JSON response
