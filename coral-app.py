@@ -48,14 +48,14 @@ def predict():
             image_file = flask.request.files["image"]
             image_bytes = image_file.read()
             image = Image.open(io.BytesIO(image_bytes))
-            print('image.size: ', image.size)
+            logging.debug('image.size: ', image.size)
             size = common.input_size(interpreter)
-            print('size: ', size)
+            logging.debug('size: ', size)
             image = image.convert("RGB").resize(size, Image.ANTIALIAS)
-            print('image.size2: ', image.size)
+            logging.debug('image.size2: ', image.size)
             _, scale = common.set_resized_input(
                 interpreter, image.size, lambda size: image.resize(size, Image.ANTIALIAS))
-            print('scale: ', scale)
+            logging.debug('scale: ', scale)
 
             # Run an inference
             common.set_input(interpreter, image)
@@ -63,7 +63,7 @@ def predict():
             interpreter.invoke()
             inference_time = time.perf_counter() - start
             objs = detect.get_objects(interpreter, threshold, scale)
-            print('%.2f ms' % (inference_time * 1000))
+            logging.debug('%.2f ms' % (inference_time * 1000))
             if objs:
                 data["success"] = True
                 preds = []
@@ -80,13 +80,13 @@ def predict():
                                 "x_max": int(obj.bbox.xmax),
                             }
                         )
-                    print(labels.get(obj.id, obj.id))
-                    print('  id:    ', obj.id)
-                    print('  score: ', obj.score)
-                    print('  bbox:  ', obj.bbox)
+                    logging.debug(labels.get(obj.id, obj.id))
+                    logging.debug('  id:    ', obj.id)
+                    logging.debug('  score: ', obj.score)
+                    logging.debug('  bbox:  ', obj.bbox)
                 data["predictions"] = preds
             else:
-                print('No objects detected')
+                logging.debug('No objects detected')
 
     # return the data dictionary as a JSON response
     return flask.jsonify(data)
@@ -122,6 +122,6 @@ if __name__ == "__main__":
     global interpreter
     interpreter = edgetpu.make_interpreter(model_file)
     interpreter.allocate_tensors()
-    print("\n Initialised interpreter with model : {}".format(model_file))
+    logging.debug("\n Initialised interpreter with model : {}".format(model_file))
 
     app.run(host="0.0.0.0", debug=False, port=args.port)
