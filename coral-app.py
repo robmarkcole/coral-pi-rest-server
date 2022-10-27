@@ -57,7 +57,7 @@ def predict():
             _, scale = common.set_resized_input(
                 interpreter, image.size, lambda size: image.resize(size, Image.ANTIALIAS))
             objs = detect.get_objects(interpreter, threshold, scale)
-
+            print('%.2f ms' % (inference_time * 1000))
             if objs:
                 data["success"] = True
                 preds = []
@@ -68,13 +68,19 @@ def predict():
                             {
                                 "confidence": float(obj.score),
                                 "label": labels[obj.id],
-                                "y_min": int(obj.bbox[1]),
-                                "x_min": int(obj.bbox[0]),
-                                "y_max": int(obj.bbox[3]),
-                                "x_max": int(obj.bbox[2]),
+                                "y_min": int(obj.bbox.ymin),
+                                "x_min": int(obj.bbox.xmin),
+                                "y_max": int(obj.bbox.ymax),
+                                "x_max": int(obj.bbox.xmax),
                             }
                         )
+                    print(labels.get(obj.id, obj.id))
+                    print('  id:    ', obj.id)
+                    print('  score: ', obj.score)
+                    print('  bbox:  ', obj.bbox)
                 data["predictions"] = preds
+            else:
+                print('No objects detected')
 
     # return the data dictionary as a JSON response
     return flask.jsonify(data)
