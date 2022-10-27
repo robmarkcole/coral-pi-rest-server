@@ -51,11 +51,15 @@ def predict():
             size = common.input_size(interpreter)
             image = image.convert("RGB").resize(size, Image.ANTIALIAS)
 
-            # Run an inference
-            common.set_input(interpreter, image)
-            interpreter.invoke()
             _, scale = common.set_resized_input(
                 interpreter, image.size, lambda size: image.resize(size, Image.ANTIALIAS))
+
+
+            # Run an inference
+            common.set_input(interpreter, image)
+            start = time.perf_counter()
+            interpreter.invoke()
+            inference_time = time.perf_counter() - start
             objs = detect.get_objects(interpreter, threshold, scale)
             print('%.2f ms' % (inference_time * 1000))
             if objs:
