@@ -5,7 +5,7 @@ $ python3 coral-app.py --models-directory models
 ```
 Then use curl to query:
 ```
-curl -X POST -F image=@images/test-image3.jpg 'http://localhost:5000/v1/vision/detection'
+curl -X POST -F image=@images/test-image3.jpg -F min_confidence=.5 'http://localhost:5000/v1/vision/detection'
 
 {'predictions': [{'confidence': 0.953125,
    'label': 'person',
